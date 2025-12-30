@@ -71,9 +71,11 @@ public class MyServer {
                 //如果selectionKey处于连接就绪状态，则开始接受客户端的连接
                 if (key.isAcceptable()) {
                     //获取channel
-                    ServerSocketChannel server = (ServerSocketChannel) key.channel();
-                    //channel接受连接
-                    SocketChannel channel = server.accept();
+                    SocketChannel channel;
+                    try (ServerSocketChannel server = (ServerSocketChannel) key.channel()) {
+                        //channel接受连接
+                        channel = server.accept();
+                    }
                     //channel注册
                     this.registerChannel(selector, channel, SelectionKey.OP_READ);
                     //远程客户端的连接数据统计

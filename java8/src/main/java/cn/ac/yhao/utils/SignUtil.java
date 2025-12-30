@@ -1,10 +1,9 @@
 package cn.ac.yhao.utils;
 
-import sun.misc.BASE64Encoder;
-
 import javax.crypto.Mac;
 import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
+import java.util.Base64;
 
 /**
  * @description: 签名
@@ -32,8 +31,7 @@ public class SignUtil {
             mac.init(sk);
             byte[] bytes = mac.doFinal(content.getBytes("UTF-8"));
 
-            BASE64Encoder be = new BASE64Encoder();
-            signStr = be.encode(bytes);
+            signStr = String.valueOf(Base64.getEncoder().encode(bytes));
             signStr = signStr.replace("+", "%2B");
         } catch (Exception e) {
             System.err.println(e.getMessage());
